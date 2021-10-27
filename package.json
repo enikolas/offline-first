@@ -3,6 +3,7 @@
   "description": "A demo application, to show how to develop an offline first application",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://enikolas.github.io/offline-first",
   "repository": {
     "type": "git",
     "url": ""
@@ -21,6 +22,7 @@
     "@types/react-dom": "^17.0.9",
     "@types/styled-components": "^5.1.11",
     "axios": "^0.21.1",
+    "gh-pages": "^3.2.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
@@ -32,7 +34,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+		"predeploy": "npm run build",
+		"deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
