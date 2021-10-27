@@ -34,7 +34,7 @@ export interface ICurrentWeather {
 
 const currentWeatherUrl = (query: string) => `${BASE_URL}/current.json?key=${apiKey}&q=${query}`;
 
-export const getCurrentWeather = (location: string, callback: (weather: ICurrentWeather) => void): void => {
+export const getCurrentWeather = (location: string, callback?: (weather: ICurrentWeather) => void): void => {
 	axios.get(currentWeatherUrl(location))
 		.then((response: ICurrentWeatherApiResponde) => {
 			const currentWeather: ICurrentWeather = {
@@ -47,7 +47,11 @@ export const getCurrentWeather = (location: string, callback: (weather: ICurrent
 				location: `${response.data.location.name}, ${response.data.location.region}`,
 			};
 
-			callback(currentWeather);
+			if (callback) {
+				callback(currentWeather);
+			} else {
+				return currentWeather;
+			}
 		})
 		.catch((err) => {
 			console.error("Fail to fetch", err);
