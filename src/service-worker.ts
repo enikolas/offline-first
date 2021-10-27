@@ -19,8 +19,8 @@ self.addEventListener('install', (event) => {
 	const onInstall = async () => {
 		const cache = await caches.open(`${staticCacheVersion}::${staticCacheName}`);
 		cache.addAll([
-			'/static',
-			'/index.html'
+			'/offline-first/static',
+			'/offline-first/index.html'
 		]);
 		// cache.addAll(self.__WB_MANIFEST);
 	};

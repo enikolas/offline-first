@@ -10,9 +10,11 @@ export const registerServiceWorker = () => {
 		};
 	
 		window.addEventListener('load', () => {
-			navigator.serviceWorker.register('/service-worker.js')
-			.then(onSuccess)
-			.catch(onFail);
+			navigator.serviceWorker.register('/offline-first/service-worker.js', {
+				scope: '/offline-first/',
+			})
+				.then(onSuccess)
+				.catch(onFail);
 		});
 	} else {
 		console.log("Your browser does not support service worker");
