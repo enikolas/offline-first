@@ -36,6 +36,18 @@ const dynamicCacheName = "weatherAppDynamic";
 self.addEventListener('fetch', (event) => {
 	const request = event.request;
 
+	/**
+	 * Chrome extensions dispatch some internal fetchs,
+	 * that a service worker may intercept if needed.
+	 * For this case, we don't want to intercept it,
+	 * so we just ignore it.
+	 */
+	const isBrowserExtensionRequest = !request.url.startsWith("http");
+	if (isBrowserExtensionRequest) {
+		event.respondWith(fetch(request));
+		return;
+	}
+
 	const onFetch = async (): Promise<Response> => {
 		const cache = await caches.open(dynamicCacheName);
 

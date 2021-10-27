@@ -10,7 +10,7 @@ interface ICurrentWeatherApiResponde {
 			region: string;
 		},
 		current: {
-			last_updated_epoch: number;
+			last_updated: string;
 			temp_c: number;
 			feelslike_c: number;
 			humidity: number;
@@ -38,7 +38,7 @@ export const getCurrentWeather = (location: string, callback?: (weather: ICurren
 	axios.get(currentWeatherUrl(location))
 		.then((response: ICurrentWeatherApiResponde) => {
 			const currentWeather: ICurrentWeather = {
-				lastUpdated: new Date(response.data.current.last_updated_epoch),
+				lastUpdated: new Date(response.data.current.last_updated),
 				temperature: response.data.current.temp_c,
 				feelsLike: response.data.current.feelslike_c,
 				humidity: response.data.current.humidity,
