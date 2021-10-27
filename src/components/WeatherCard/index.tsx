@@ -2,7 +2,7 @@ import { FC } from "react";
 import { StyledCard, StyledCondition, StyledDate, StyledFeelsLike, StyledHumidity, StyledIcon, StyledLocation, StyledRemoveButton, StyledTemperature } from "./styles";
 
 export interface IWeatherCard {
-	lastUpdated: Date;
+	lastUpdated: string;
 	temperature: number;
 	feelsLike: number;
 	humidity: number;
@@ -24,7 +24,7 @@ const WeatherCard: FC<IWeatherCard> = ({
 }) => (
 	<StyledCard>
 		<StyledLocation>{location}</StyledLocation>
-		<StyledDate>{lastUpdated.toLocaleDateString()} {lastUpdated.toLocaleTimeString()}</StyledDate>
+		<StyledDate>{lastUpdated}</StyledDate>
 		<StyledIcon src={icon} alt={`The weather is ${condition}`} />
 		<StyledTemperature>{temperature}ºC</StyledTemperature>
 		<StyledCondition>{condition}</StyledCondition>

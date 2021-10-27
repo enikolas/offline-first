@@ -23,7 +23,13 @@ const Dashboard = () => {
 	useEffect(() => {
 		if (refresh) {
 			setRefresh(false);
-			locations.forEach((location) => getCurrentWeather(location, addWeather(location)));
+			Promise.all(locations.map((location) => getCurrentWeather(location)))
+				.then((results) => {
+					const refreshedWeathers: ICurrentWeather[] = results
+						.filter((item) => item !== null) as ICurrentWeather[];
+
+					setWeathers(refreshedWeathers);
+				});
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [refresh]);

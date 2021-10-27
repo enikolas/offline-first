@@ -14,7 +14,7 @@ const WeatherList: FC<IWeatherList> = ({
 	<>
 		{weathers.map((weather: ICurrentWeather) => (
 			<WeatherCard
-				key={`${weather.location}-${weather.lastUpdated.toISOString()}`}
+				key={`${weather.location}-${weather.lastUpdated}`}
 				condition={weather.condition}
 				feelsLike={weather.feelsLike}
 				humidity={weather.humidity}

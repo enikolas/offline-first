@@ -23,7 +23,7 @@ interface ICurrentWeatherApiResponde {
 };
 
 export interface ICurrentWeather {
-	lastUpdated: Date;
+	lastUpdated: string;
 	temperature: number;
 	feelsLike: number;
 	humidity: number;
@@ -34,11 +34,11 @@ export interface ICurrentWeather {
 
 const currentWeatherUrl = (query: string) => `${BASE_URL}/current.json?key=${apiKey}&q=${query}`;
 
-export const getCurrentWeather = (location: string, callback?: (weather: ICurrentWeather) => void): void => {
-	axios.get(currentWeatherUrl(location))
+export const getCurrentWeather = (location: string, callback?: (weather: ICurrentWeather) => void): Promise<ICurrentWeather | null> => {
+	return axios.get(currentWeatherUrl(location))
 		.then((response: ICurrentWeatherApiResponde) => {
 			const currentWeather: ICurrentWeather = {
-				lastUpdated: new Date(response.data.current.last_updated),
+				lastUpdated: response.data.current.last_updated,
 				temperature: response.data.current.temp_c,
 				feelsLike: response.data.current.feelslike_c,
 				humidity: response.data.current.humidity,
@@ -49,11 +49,13 @@ export const getCurrentWeather = (location: string, callback?: (weather: ICurren
 
 			if (callback) {
 				callback(currentWeather);
+				return currentWeather;
 			} else {
 				return currentWeather;
 			}
 		})
 		.catch((err) => {
 			console.error("Fail to fetch", err);
+			return null;
 		});
 };

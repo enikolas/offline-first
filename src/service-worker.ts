@@ -2,12 +2,12 @@
 
 // export empty type because of tsc --isolatedModules flag
 export type {};
-// Needed because CRA
-type craIgnoredType = { __WB_MANIFEST: any };
-// Extends the ServiceWorker with a CRA mandatory property
-declare const self: ServiceWorkerGlobalScope & craIgnoredType;
 
-const ignored = self.__WB_MANIFEST;
+// CRA extended feature
+type CraStaticResource = { revision: string, url: string };
+type CraExtended = { __WB_MANIFEST: CraStaticResource[] };
+
+declare const self: ServiceWorkerGlobalScope & CraExtended;
 
 const staticCacheName = "weatherAppStatic";
 const staticCacheVersion = "v0.0.1";
@@ -16,16 +16,22 @@ const staticCacheVersion = "v0.0.1";
  * On install as dependency: Caching static files
  */
 self.addEventListener('install', (event) => {
-	const onInstall = async () => {
+	const onInstall = async (): Promise<void> => {
 		const cache = await caches.open(`${staticCacheVersion}::${staticCacheName}`);
-		cache.addAll([
+
+		const staticResources = self.__WB_MANIFEST.map((resource) => resource.url);
+
+		/*
+		return cache.addAll([
 			'/offline-first/static',
 			'/offline-first/index.html'
 		]);
-		// cache.addAll(self.__WB_MANIFEST);
+		*/
+
+		return cache.addAll(staticResources);
 	};
 
-	event.waitUntil(onInstall());
+	event.waitUntil(onInstall);
 });
 
 const dynamicCacheName = "weatherAppDynamic";
